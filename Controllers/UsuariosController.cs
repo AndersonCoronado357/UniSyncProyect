@@ -6,7 +6,7 @@ using UniSync.Services;
 namespace UniSync.Controllers
 {
     [RoutePrefix("api/Usuario")]
-    public class UsuarioController : ApiController
+    public class UsuariosController : ApiController
     {
         private readonly UsuarioService _service = new UsuarioService();
 

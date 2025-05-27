@@ -9,9 +9,10 @@
 
 namespace UniSync.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class USUARIO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,13 +20,15 @@ namespace UniSync.Models
         {
             this.ASIGNATURAs = new HashSet<ASIGNATURA>();
         }
-    
+
         public int ID_USUARIO { get; set; }
         public string NOMBRE { get; set; }
         public string CORREO { get; set; }
         public string CONTRASENA { get; set; }
         public bool ROL { get; set; }
-    
+
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ASIGNATURA> ASIGNATURAs { get; set; }
     }

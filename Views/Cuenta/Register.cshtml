@@ -1,0 +1,84 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | UniSync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link href="~/Content/register.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="background-circle circle1"></div>
+    <div class="background-circle circle2"></div>
+
+    <div class="container">
+        <div class="info">
+            <h1>UniSync</h1>
+            <p>
+                Todo tu rendimiento académico en un solo lugar.
+                Con tu cuenta, podrás administrar horarios, tareas,
+                calificaciones y apuntes de manera organizada
+                y accesible en cualquier momento.
+            </p>
+        </div>
+
+        <div class="formulario">
+            <h2>Crea tu cuenta y lleva tu estudio al siguiente nivel</h2>
+            <form id="registroForm">
+                <input type="text" id="nombre" placeholder="Nombre" required />
+                <input type="email" id="correo" placeholder="Correo" required />
+                <input type="password" id="contrasena" placeholder="Contraseña" required />
+                <button type="submit">CREAR CUENTA</button>
+            </form>
+            <a href="#">¿Tienes problemas para crear tu cuenta?</a>
+            <p class="or">OR</p>
+            <p class="google-text">continuar con google...</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registroForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value.trim();
+            const correo = document.getElementById('correo').value.trim();
+            const contrasena = document.getElementById('contrasena').value;
+
+            const data = {
+                NOMBRE: nombre,
+                CORREO: correo,
+                CONTRASENA: contrasena,
+                ROL: false
+            };
+
+            try {
+                const response = await fetch('/api/Usuario/Insertar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result); // Mensaje del servicio
+                    window.location.href = '/Home/Index'; // O redirige donde quieras
+                } else {
+                    alert('Error: ' + result.Message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error al registrar el usuario.');
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -9,9 +9,10 @@
 
 namespace UniSync.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ASIGNATURA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,20 +23,29 @@ namespace UniSync.Models
             this.HORARIOs = new HashSet<HORARIO>();
             this.TAREAs = new HashSet<TAREA>();
         }
-    
+
         public int ID_ASIGNATURA { get; set; }
         public string NOMBRE { get; set; }
         public string DOCENTE { get; set; }
         public string AULA { get; set; }
         public int ID_USUARIO { get; set; }
-    
+
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APUNTE> APUNTEs { get; set; }
+
         public virtual USUARIO USUARIO { get; set; }
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CALIFICACION> CALIFICACIONs { get; set; }
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HORARIO> HORARIOs { get; set; }
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TAREA> TAREAs { get; set; }
     }

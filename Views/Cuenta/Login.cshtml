@@ -1,0 +1,97 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | UniSync</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/login.css" />
+</head>
+<body>
+
+    <div class="background-circle circle1"></div>
+    <div class="background-circle circle2"></div>
+
+    <div class="container">
+
+        <div class="formulario">
+            <h2>Tu espacio académico, <br>siempre organizado</h2>
+            <p class="subtexto">Accede a tu espacio académico y mantente organizado con facilidad</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="correo" id="correo" placeholder="Correo" required />
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="contrasena" id="contrasena" placeholder="Contraseña" required />
+                </div>
+
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="signup">
+                ¿No tienes una cuenta? <a href="/Cuenta/Register">Sign up now</a>
+            </div>
+
+            <div class="or">OR</div>
+
+            <div class="google-login">
+                Login con Google...
+            </div>
+        </div>
+
+        <div class="info">
+            <h1>UniSync</h1>
+            <p>
+                Simplifica tu vida universitaria con una plataforma que te ayuda a gestionar clases, tareas y notas de manera eficiente. <br> Concéntrate en aprender, nosotros te ayudamos con el resto.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const correo = document.getElementById('correo').value.trim();
+            const contrasena = document.getElementById('contrasena').value.trim();
+
+            try {
+                const response = await fetch('/api/Usuario/Login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ correo, contrasena })
+                });
+
+                if (response.ok) {
+                    const usuario = await response.json();
+
+                    // Guardar el usuario en localStorage
+                    localStorage.setItem('usuario', JSON.stringify(usuario));
+
+                    alert('Bienvenido, ' + usuario.NOMBRE);
+
+                    // Redirigir a la vista de asignaturas
+                    window.location.href = '/Asignatura/Asignatura'; // Ajusta esta ruta según tu proyecto
+                } else if (response.status === 401) {
+                    alert('Credenciales incorrectas. Verifica tu correo y contraseña.');
+                } else {
+                    alert('Error en el servidor. Inténtalo más tarde.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error al conectar con el servidor.');
+            }
+        });
+    </script>
+
+</body>
+</html>

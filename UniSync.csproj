@@ -170,8 +170,10 @@
     <Compile Include="clases\Tarea.cs" />
     <Compile Include="clases\Usuario.cs" />
     <Compile Include="Controllers\ApuntesController.cs" />
+    <Compile Include="Controllers\AsignaturaController.cs" />
     <Compile Include="Controllers\AsignaturasController.cs" />
     <Compile Include="Controllers\CalificacionesController.cs" />
+    <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HorariosController.cs" />
     <Compile Include="Controllers\TareasController.cs" />
@@ -235,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\asignatura.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -251,6 +254,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\login.css" />
+    <Content Include="Content\register.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Models\UNISYNC.Context.tt">
@@ -315,6 +320,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Cuenta\Register.cshtml" />
+    <Content Include="Views\Cuenta\Login.cshtml" />
+    <Content Include="Views\Asignatura\Asignatura.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
