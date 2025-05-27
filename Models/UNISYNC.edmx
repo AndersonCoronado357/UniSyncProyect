@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UNISYNCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="APUNTE">
+          <Key>
+            <PropertyRef Name="ID_APUNTE" />
+          </Key>
+          <Property Name="ID_APUNTE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CONTENIDO" Type="text" />
+          <Property Name="FECHA" Type="datetime" />
+          <Property Name="ETIQUETA" Type="varchar" MaxLength="50" />
+          <Property Name="ID_ASIGNATURA" Type="int" />
+        </EntityType>
+        <EntityType Name="ASIGNATURA">
+          <Key>
+            <PropertyRef Name="ID_ASIGNATURA" />
+          </Key>
+          <Property Name="ID_ASIGNATURA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DOCENTE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AULA" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CALIFICACION">
+          <Key>
+            <PropertyRef Name="ID_CALIFICACION" />
+          </Key>
+          <Property Name="ID_CALIFICACION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOTA" Type="float" Nullable="false" />
+          <Property Name="PORCENTAJE" Type="float" Nullable="false" />
+          <Property Name="ID_ASIGNATURA" Type="int" />
+        </EntityType>
+        <EntityType Name="HORARIO">
+          <Key>
+            <PropertyRef Name="ID_HORARIO" />
+          </Key>
+          <Property Name="ID_HORARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HORA_INICIO" Type="time" Precision="7" />
+          <Property Name="HORA_FIN" Type="time" Precision="7" />
+          <Property Name="DIAS" Type="varchar" MaxLength="20" />
+          <Property Name="NOTIFICACION" Type="bit" />
+          <Property Name="ID_ASIGNATURA" Type="int" />
+        </EntityType>
+        <EntityType Name="TAREA">
+          <Key>
+            <PropertyRef Name="ID_TAREA" />
+          </Key>
+          <Property Name="ID_TAREA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="text" Nullable="false" />
+          <Property Name="FECHA_ENTREGA" Type="datetime" Nullable="false" />
+          <Property Name="PRIORIDAD" Type="bit" Nullable="false" />
+          <Property Name="ESTADO" Type="bit" Nullable="false" />
+          <Property Name="NOTIFICACION" Type="bit" />
+          <Property Name="ID_ASIGNATURA" Type="int" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CORREO" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CONTRASENA" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ROL" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__APUNTE__ID_ASIGN__4222D4EF">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="APUNTE" Type="Self.APUNTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="APUNTE">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASIGNATUR__ID_US__398D8EEE">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="ASIGNATURA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CALIFICAC__ID_AS__3C69FB99">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="CALIFICACION" Type="Self.CALIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="CALIFICACION">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HORARIO__ID_ASIG__44FF419A">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="HORARIO" Type="Self.HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="HORARIO">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAREA__ID_ASIGNA__3F466844">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="TAREA" Type="Self.TAREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="TAREA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UNISYNCModelStoreContainer">
+          <EntitySet Name="APUNTE" EntityType="Self.APUNTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ASIGNATURA" EntityType="Self.ASIGNATURA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CALIFICACION" EntityType="Self.CALIFICACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HORARIO" EntityType="Self.HORARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TAREA" EntityType="Self.TAREA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIO" EntityType="Self.USUARIO" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__APUNTE__ID_ASIGN__4222D4EF" Association="Self.FK__APUNTE__ID_ASIGN__4222D4EF">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURA" />
+            <End Role="APUNTE" EntitySet="APUNTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASIGNATUR__ID_US__398D8EEE" Association="Self.FK__ASIGNATUR__ID_US__398D8EEE">
+            <End Role="USUARIO" EntitySet="USUARIO" />
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CALIFICAC__ID_AS__3C69FB99" Association="Self.FK__CALIFICAC__ID_AS__3C69FB99">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURA" />
+            <End Role="CALIFICACION" EntitySet="CALIFICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HORARIO__ID_ASIG__44FF419A" Association="Self.FK__HORARIO__ID_ASIG__44FF419A">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURA" />
+            <End Role="HORARIO" EntitySet="HORARIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAREA__ID_ASIGNA__3F466844" Association="Self.FK__TAREA__ID_ASIGNA__3F466844">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURA" />
+            <End Role="TAREA" EntitySet="TAREA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UNISYNCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="APUNTE">
+          <Key>
+            <PropertyRef Name="ID_APUNTE" />
+          </Key>
+          <Property Name="ID_APUNTE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CONTENIDO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA" Type="DateTime" Precision="3" />
+          <Property Name="ETIQUETA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ASIGNATURA" Type="Int32" />
+          <NavigationProperty Name="ASIGNATURA" Relationship="Self.FK__APUNTE__ID_ASIGN__4222D4EF" FromRole="APUNTE" ToRole="ASIGNATURA" />
+        </EntityType>
+        <EntityType Name="ASIGNATURA">
+          <Key>
+            <PropertyRef Name="ID_ASIGNATURA" />
+          </Key>
+          <Property Name="ID_ASIGNATURA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DOCENTE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AULA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="APUNTEs" Relationship="Self.FK__APUNTE__ID_ASIGN__4222D4EF" FromRole="ASIGNATURA" ToRole="APUNTE" />
+          <NavigationProperty Name="USUARIO" Relationship="Self.FK__ASIGNATUR__ID_US__398D8EEE" FromRole="ASIGNATURA" ToRole="USUARIO" />
+          <NavigationProperty Name="CALIFICACIONs" Relationship="Self.FK__CALIFICAC__ID_AS__3C69FB99" FromRole="ASIGNATURA" ToRole="CALIFICACION" />
+          <NavigationProperty Name="HORARIOs" Relationship="Self.FK__HORARIO__ID_ASIG__44FF419A" FromRole="ASIGNATURA" ToRole="HORARIO" />
+          <NavigationProperty Name="TAREAs" Relationship="Self.FK__TAREA__ID_ASIGNA__3F466844" FromRole="ASIGNATURA" ToRole="TAREA" />
+        </EntityType>
+        <EntityType Name="CALIFICACION">
+          <Key>
+            <PropertyRef Name="ID_CALIFICACION" />
+          </Key>
+          <Property Name="ID_CALIFICACION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOTA" Type="Double" Nullable="false" />
+          <Property Name="PORCENTAJE" Type="Double" Nullable="false" />
+          <Property Name="ID_ASIGNATURA" Type="Int32" />
+          <NavigationProperty Name="ASIGNATURA" Relationship="Self.FK__CALIFICAC__ID_AS__3C69FB99" FromRole="CALIFICACION" ToRole="ASIGNATURA" />
+        </EntityType>
+        <EntityType Name="HORARIO">
+          <Key>
+            <PropertyRef Name="ID_HORARIO" />
+          </Key>
+          <Property Name="ID_HORARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HORA_INICIO" Type="Time" Precision="7" />
+          <Property Name="HORA_FIN" Type="Time" Precision="7" />
+          <Property Name="DIAS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NOTIFICACION" Type="Boolean" />
+          <Property Name="ID_ASIGNATURA" Type="Int32" />
+          <NavigationProperty Name="ASIGNATURA" Relationship="Self.FK__HORARIO__ID_ASIG__44FF419A" FromRole="HORARIO" ToRole="ASIGNATURA" />
+        </EntityType>
+        <EntityType Name="TAREA">
+          <Key>
+            <PropertyRef Name="ID_TAREA" />
+          </Key>
+          <Property Name="ID_TAREA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FECHA_ENTREGA" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRIORIDAD" Type="Boolean" Nullable="false" />
+          <Property Name="ESTADO" Type="Boolean" Nullable="false" />
+          <Property Name="NOTIFICACION" Type="Boolean" />
+          <Property Name="ID_ASIGNATURA" Type="Int32" />
+          <NavigationProperty Name="ASIGNATURA" Relationship="Self.FK__TAREA__ID_ASIGNA__3F466844" FromRole="TAREA" ToRole="ASIGNATURA" />
+        </EntityType>
+        <EntityType Name="USUARIO">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CORREO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CONTRASENA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ROL" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ASIGNATURAs" Relationship="Self.FK__ASIGNATUR__ID_US__398D8EEE" FromRole="USUARIO" ToRole="ASIGNATURA" />
+        </EntityType>
+        <Association Name="FK__APUNTE__ID_ASIGN__4222D4EF">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="APUNTE" Type="Self.APUNTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="APUNTE">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ASIGNATUR__ID_US__398D8EEE">
+          <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIO">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="ASIGNATURA">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CALIFICAC__ID_AS__3C69FB99">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="CALIFICACION" Type="Self.CALIFICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="CALIFICACION">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__HORARIO__ID_ASIG__44FF419A">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="HORARIO" Type="Self.HORARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="HORARIO">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAREA__ID_ASIGNA__3F466844">
+          <End Role="ASIGNATURA" Type="Self.ASIGNATURA" Multiplicity="0..1" />
+          <End Role="TAREA" Type="Self.TAREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ASIGNATURA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Principal>
+            <Dependent Role="TAREA">
+              <PropertyRef Name="ID_ASIGNATURA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UNISYNCEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="APUNTEs" EntityType="Self.APUNTE" />
+          <EntitySet Name="ASIGNATURAs" EntityType="Self.ASIGNATURA" />
+          <EntitySet Name="CALIFICACIONs" EntityType="Self.CALIFICACION" />
+          <EntitySet Name="HORARIOs" EntityType="Self.HORARIO" />
+          <EntitySet Name="TAREAs" EntityType="Self.TAREA" />
+          <EntitySet Name="USUARIOs" EntityType="Self.USUARIO" />
+          <AssociationSet Name="FK__APUNTE__ID_ASIGN__4222D4EF" Association="Self.FK__APUNTE__ID_ASIGN__4222D4EF">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURAs" />
+            <End Role="APUNTE" EntitySet="APUNTEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ASIGNATUR__ID_US__398D8EEE" Association="Self.FK__ASIGNATUR__ID_US__398D8EEE">
+            <End Role="USUARIO" EntitySet="USUARIOs" />
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURAs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CALIFICAC__ID_AS__3C69FB99" Association="Self.FK__CALIFICAC__ID_AS__3C69FB99">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURAs" />
+            <End Role="CALIFICACION" EntitySet="CALIFICACIONs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__HORARIO__ID_ASIG__44FF419A" Association="Self.FK__HORARIO__ID_ASIG__44FF419A">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURAs" />
+            <End Role="HORARIO" EntitySet="HORARIOs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAREA__ID_ASIGNA__3F466844" Association="Self.FK__TAREA__ID_ASIGNA__3F466844">
+            <End Role="ASIGNATURA" EntitySet="ASIGNATURAs" />
+            <End Role="TAREA" EntitySet="TAREAs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UNISYNCModelStoreContainer" CdmEntityContainer="UNISYNCEntities3">
+          <EntitySetMapping Name="APUNTEs">
+            <EntityTypeMapping TypeName="UNISYNCModel.APUNTE">
+              <MappingFragment StoreEntitySet="APUNTE">
+                <ScalarProperty Name="ID_APUNTE" ColumnName="ID_APUNTE" />
+                <ScalarProperty Name="CONTENIDO" ColumnName="CONTENIDO" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="ETIQUETA" ColumnName="ETIQUETA" />
+                <ScalarProperty Name="ID_ASIGNATURA" ColumnName="ID_ASIGNATURA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ASIGNATURAs">
+            <EntityTypeMapping TypeName="UNISYNCModel.ASIGNATURA">
+              <MappingFragment StoreEntitySet="ASIGNATURA">
+                <ScalarProperty Name="ID_ASIGNATURA" ColumnName="ID_ASIGNATURA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DOCENTE" ColumnName="DOCENTE" />
+                <ScalarProperty Name="AULA" ColumnName="AULA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CALIFICACIONs">
+            <EntityTypeMapping TypeName="UNISYNCModel.CALIFICACION">
+              <MappingFragment StoreEntitySet="CALIFICACION">
+                <ScalarProperty Name="ID_CALIFICACION" ColumnName="ID_CALIFICACION" />
+                <ScalarProperty Name="NOTA" ColumnName="NOTA" />
+                <ScalarProperty Name="PORCENTAJE" ColumnName="PORCENTAJE" />
+                <ScalarProperty Name="ID_ASIGNATURA" ColumnName="ID_ASIGNATURA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HORARIOs">
+            <EntityTypeMapping TypeName="UNISYNCModel.HORARIO">
+              <MappingFragment StoreEntitySet="HORARIO">
+                <ScalarProperty Name="ID_HORARIO" ColumnName="ID_HORARIO" />
+                <ScalarProperty Name="HORA_INICIO" ColumnName="HORA_INICIO" />
+                <ScalarProperty Name="HORA_FIN" ColumnName="HORA_FIN" />
+                <ScalarProperty Name="DIAS" ColumnName="DIAS" />
+                <ScalarProperty Name="NOTIFICACION" ColumnName="NOTIFICACION" />
+                <ScalarProperty Name="ID_ASIGNATURA" ColumnName="ID_ASIGNATURA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAREAs">
+            <EntityTypeMapping TypeName="UNISYNCModel.TAREA">
+              <MappingFragment StoreEntitySet="TAREA">
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHA_ENTREGA" ColumnName="FECHA_ENTREGA" />
+                <ScalarProperty Name="PRIORIDAD" ColumnName="PRIORIDAD" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOTIFICACION" ColumnName="NOTIFICACION" />
+                <ScalarProperty Name="ID_ASIGNATURA" ColumnName="ID_ASIGNATURA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOs">
+            <EntityTypeMapping TypeName="UNISYNCModel.USUARIO">
+              <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+                <ScalarProperty Name="CONTRASENA" ColumnName="CONTRASENA" />
+                <ScalarProperty Name="ROL" ColumnName="ROL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

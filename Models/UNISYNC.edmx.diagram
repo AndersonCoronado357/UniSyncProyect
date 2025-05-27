@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d6dc76c6f3e042168d2ce65be1a30e66" Name="Diagram1">
+        <EntityTypeShape EntityType="UNISYNCModel.APUNTE" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UNISYNCModel.ASIGNATURA" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UNISYNCModel.CALIFICACION" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UNISYNCModel.HORARIO" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="UNISYNCModel.TAREA" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UNISYNCModel.USUARIO" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <AssociationConnector Association="UNISYNCModel.FK__APUNTE__ID_ASIGN__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="UNISYNCModel.FK__ASIGNATUR__ID_US__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="UNISYNCModel.FK__CALIFICAC__ID_AS__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="UNISYNCModel.FK__HORARIO__ID_ASIG__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="UNISYNCModel.FK__TAREA__ID_ASIGNA__3F466844" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
