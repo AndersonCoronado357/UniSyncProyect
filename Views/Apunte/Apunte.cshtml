@@ -1,0 +1,142 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apuntes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/apuntes.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="~/img/image (1).png" alt="Logo" class="logo-icon">
+            <span class="logo-text">UniSync</span>
+        </div>
+        <div class="user-icon">
+            <i class="fa-regular fa-user"></i>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="notas-box">
+            <div class="top-bar">
+                <button class="btn" id="btnAgregar"> AGREGAR APUNTES</button>
+                <button class="btn filter-btn">
+                    <i class="fa-solid fa-filter outline-icon"></i>
+                </button>
+            </div>
+
+            <div class="nota-list" id="listaApuntes">
+                <!-- Aquí se cargarán los apuntes dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const idAsignatura = localStorage.getItem('idAsignatura');
+
+            if (!idAsignatura) {
+                alert("No se ha seleccionado una asignatura.");
+                window.location.href = "/Asignatura/Asignaturas";
+                return;
+            }
+
+            const lista = document.getElementById('listaApuntes');
+
+            async function cargarApuntes() {
+                try {
+                    const response = await fetch(`/api/Apunte/ConsultarXAsignatura?idAsignatura=${idAsignatura}`);
+                    if (!response.ok) throw new Error('Error al obtener apuntes.');
+
+                    const apuntes = await response.json();
+                    lista.innerHTML = '';
+
+                    apuntes.forEach(apunte => {
+                        const item = document.createElement('div');
+                        item.className = 'nota-item';
+                        item.innerHTML = `
+                            <button class="btn"><i class="fa-solid fa-bars"></i> EXPORTAR</button>
+                            <span class="nota-titulo"><strong>CLASE:</strong> ${apunte.ETIQUETA ?? 'Sin título'}</span>
+                            <div class="buttons">
+                                <button class="btn">MODIFICAR APUNTES</button>
+                                <button class="btn btn-eliminar" data-id="${apunte.ID_APUNTE}">ELIMINAR APUNTES</button>
+                            </div>
+                        `;
+                        lista.appendChild(item);
+                    });
+
+                    // Event Listener para eliminar apuntes
+                    document.querySelectorAll('.btn-eliminar').forEach(btn => {
+                        btn.addEventListener('click', async function () {
+                            const idApunte = this.getAttribute('data-id');
+                            if (!confirm('¿Seguro que quieres eliminar este apunte?')) return;
+
+                            try {
+                                const response = await fetch(`/api/Apunte/Eliminar?idApunte=${idApunte}`, {
+                                    method: 'DELETE'
+                                });
+
+                                if (response.ok) {
+                                    const result = await response.text();
+                                    alert(result);
+                                    cargarApuntes(); // Recargar lista
+                                } else {
+                                    alert('Error al eliminar apunte.');
+                                }
+                            } catch (error) {
+                                console.error(error);
+                                alert('Error en la petición para eliminar apunte.');
+                            }
+                        });
+                    });
+
+                } catch (error) {
+                    console.error(error);
+                    alert('Error al cargar apuntes');
+                }
+            }
+
+            document.getElementById('btnAgregar').addEventListener('click', async () => {
+                const contenido = prompt("Contenido del apunte:");
+                if (!contenido) return alert("Debes ingresar contenido.");
+
+                const etiqueta = prompt("Etiqueta del apunte:");
+
+                const nuevoApunte = {
+                    CONTENIDO: contenido,
+                    ETIQUETA: etiqueta,
+                    FECHA: new Date().toISOString(),
+                    ID_ASIGNATURA: parseInt(idAsignatura)
+                };
+
+                try {
+                    const response = await fetch('/api/Apunte/Insertar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(nuevoApunte)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.text();
+                        alert(result);
+                        cargarApuntes();
+                    } else {
+                        alert('Error al insertar apunte');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert('Error de red al insertar apunte');
+                }
+            });
+
+            cargarApuntes();
+        });
+    </script>
+
+</body>
+</html>

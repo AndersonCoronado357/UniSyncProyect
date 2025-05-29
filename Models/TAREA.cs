@@ -9,6 +9,7 @@
 
 namespace UniSync.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -22,7 +23,8 @@ namespace UniSync.Models
         public bool ESTADO { get; set; }
         public Nullable<bool> NOTIFICACION { get; set; }
         public Nullable<int> ID_ASIGNATURA { get; set; }
-    
+
+        [JsonIgnore]
         public virtual ASIGNATURA ASIGNATURA { get; set; }
     }
 }

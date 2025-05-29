@@ -95,7 +95,6 @@ html, body {
     .star-btn:hover {
         background-color: #26a7ba;
     }
-
 .asignatura-list {
     padding: 30px;
     display: flex;
@@ -123,18 +122,21 @@ html, body {
     min-height: 50px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Alinea los items hacia arriba */
-    flex-wrap: wrap;
+    align-items: center; /* Cambiado de flex-start a center para alinear verticalmente */
+    flex-wrap: nowrap; /* Sin salto de línea, todo en una fila */
     gap: 20px;
     width: 100%;
     max-width: 100%;
     word-break: break-word;
     overflow: hidden;
     box-sizing: border-box;
-    /* Asegura que el contenido se alinee correctamente */
-    flex-grow: 1;
     height: auto;
 }
+
+    .asignatura-item span {
+        flex: 0 1 auto; /* Que ocupe solo el espacio necesario */
+        white-space: nowrap; /* Que no se rompa texto dentro de spans */
+    }
 
     .asignatura-item > * {
         min-width: 0;
@@ -142,7 +144,7 @@ html, body {
 
 .asignatura-titulo {
     font-size: 20px;
-    flex: 1 1 250px;
+    flex: 0 1 auto; /* Ajustado para que no tome espacio extra */
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -150,29 +152,29 @@ html, body {
 
 .buttons {
     display: flex;
-    flex-wrap: wrap; /* Permite que se bajen si no hay espacio horizontal */
-    gap: 8px; /* Puedes ajustar este espacio si quieres más compacto */
+    flex-wrap: wrap; /* Permite que los botones bajen si no caben */
+    gap: 8px;
     justify-content: flex-end;
-    flex: 0 1 auto;
+    flex-shrink: 0; /* Que no se achique */
+    margin-left: auto; /* Empuja a la derecha */
     align-items: center; /* Centrado vertical */
-    align-self: center; /* Centrado dentro del item */
+    align-self: center; /* Centrado en la fila */
 }
 
 .btn {
     background-color: #00d7e6;
     color: white;
     border: none;
-    padding: 6px 14px; /* 🔽 menos alto, pero se mantiene legible */
+    padding: 6px 14px; /* Menos alto pero legible */
     border-radius: 25px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s ease;
     white-space: nowrap;
-    align-self: center; /* ✅ centrado vertical dentro del contenedor */
-    line-height: 1; /* 🔽 evita espacio extra vertical del texto */
+    align-self: center;
+    line-height: 1;
 }
-
 
     .btn:hover {
         background-color: #00bfcf;
@@ -198,12 +200,14 @@ html, body {
 
     .asignatura-item {
         flex-direction: column;
-        align-items: flex-start; /* Mantener todo alineado a la izquierda */
-        height: auto; /* Asegurarse de que el alto se ajuste */
+        align-items: flex-start;
+        height: auto;
     }
 
     .buttons {
         justify-content: flex-start;
+        margin-left: 0; /* Quitar empuje a la derecha en móvil */
+        flex-wrap: wrap;
     }
 
     .asignatura-titulo {

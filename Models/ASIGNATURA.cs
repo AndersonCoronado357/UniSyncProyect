@@ -35,6 +35,7 @@ namespace UniSync.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<APUNTE> APUNTEs { get; set; }
 
+        [JsonIgnore]
         public virtual USUARIO USUARIO { get; set; }
 
         [JsonIgnore]

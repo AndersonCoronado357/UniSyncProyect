@@ -28,7 +28,7 @@
                 <button class="star-btn"><i class="fa-regular fa-star"></i></button>
             </div>
             <div class="asignatura-list" id="asignaturaList">
-                <!-- Aquí se insertarán las asignaturas -->
+
             </div>
         </div>
     </main>
@@ -39,7 +39,7 @@
 
             if (!usuario || !usuario.ID_USUARIO) {
                 alert('Usuario no autenticado. Redirigiendo al login.');
-                window.location.href = '/Cuenta/Login'; // Ajusta si tu login está en otra ruta
+                window.location.href = '/Cuenta/Login';
                 return;
             }
 
@@ -47,9 +47,8 @@
             const contenedor = document.getElementById('asignaturaList');
             const botonAgregar = document.querySelector('.add-btn');
 
-            // Función para cargar y mostrar asignaturas
             async function cargarAsignaturas() {
-                contenedor.innerHTML = ''; // Limpia lista antes de cargar
+                contenedor.innerHTML = '';
 
                 try {
                     const response = await fetch(`/api/Asignatura/ConsultarPorUsuario?idUsuario=${idUsuario}`);
@@ -62,19 +61,16 @@
                         item.classList.add('asignatura-item');
                         item.innerHTML = `
                             <span class="asignatura-titulo"><strong>Asignatura:</strong> ${a.NOMBRE}</span>
-                            <span><strong>Docente:</strong> ${a.DOCENTE}</span>
-                            <span><strong>Aula:</strong> ${a.AULA}</span>
                             <div class="buttons">
-                                <button class="btn">TAREAS</button>
-                                <button class="btn">APUNTES</button>
-                                <button class="btn">CALIFICACIONES</button>
+                                <button class="btn tareas-btn">TAREAS</button>
+                                <button class="btn apuntes-btn" data-id="${a.ID_ASIGNATURA}">APUNTES</button>
+                                <button class="btn calificaciones-btn">CALIFICACIONES</button>
                                 <button class="btn delete" data-id="${a.ID_ASIGNATURA}">ELIMINAR ASIGNATURA</button>
                             </div>
                         `;
                         contenedor.appendChild(item);
                     });
 
-                    // Agregar eventos a botones eliminar
                     document.querySelectorAll('.btn.delete').forEach(btn => {
                         btn.addEventListener('click', async function () {
                             const idAsignatura = this.getAttribute('data-id');
@@ -88,7 +84,7 @@
                                 if (response.ok) {
                                     const result = await response.text();
                                     alert(result);
-                                    cargarAsignaturas(); // refrescar lista
+                                    cargarAsignaturas();
                                 } else {
                                     alert('Error al eliminar asignatura.');
                                 }
@@ -99,13 +95,22 @@
                         });
                     });
 
+                    document.querySelectorAll('.btn.apuntes-btn').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const idAsignatura = this.getAttribute('data-id');
+                            localStorage.setItem('idAsignatura', idAsignatura);
+                            window.location.href = '/Apunte/Apunte';
+                        });
+                    });
+
+                    // Agrega listeners para tareas o calificaciones si lo necesitas
+
                 } catch (error) {
                     console.error(error);
                     alert('Hubo un error al cargar tus asignaturas.');
                 }
             }
 
-            // Evento botón agregar asignatura
             botonAgregar.addEventListener('click', async () => {
                 const nombre = prompt('Ingresa el nombre de la asignatura:');
                 if (!nombre) return alert('Debe ingresar un nombre.');
@@ -133,7 +138,7 @@
                     if (response.ok) {
                         const result = await response.text();
                         alert(result);
-                        cargarAsignaturas(); // refrescar lista
+                        cargarAsignaturas();
                     } else {
                         alert('Error al agregar asignatura.');
                     }
@@ -143,11 +148,9 @@
                 }
             });
 
-            // Cargar asignaturas al iniciar
             cargarAsignaturas();
         });
     </script>
-
 
 </body>
 </html>
