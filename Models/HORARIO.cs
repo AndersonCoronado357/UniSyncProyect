@@ -12,7 +12,7 @@ namespace UniSync.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class HORARIO
     {
         public int ID_HORARIO { get; set; }

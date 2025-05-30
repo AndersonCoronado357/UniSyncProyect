@@ -1,0 +1,153 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniSync - Tareas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/tareas.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="~/img/image (1).png" alt="Logo" class="logo-icon">
+            <span class="logo-text">UniSync</span>
+        </div>
+        <div class="user-icon">
+            <i class="fa-regular fa-user"></i>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="top-bar">
+            <button class="btn noti"><i class="fa-regular fa-bell"></i> NOTIFICACIONES</button>
+            <button class="btn agregar">AGREGAR TAREA</button>
+        </div>
+
+        <div class="tarea-box">
+            <div class="task-list" id="taskList">
+                <!-- Las tareas se cargarán dinámicamente aquí -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const idAsignatura = localStorage.getItem("idAsignatura");
+
+            if (!idAsignatura) {
+                alert("ID de asignatura no encontrado.");
+                return;
+            }
+
+            const taskList = document.getElementById("taskList");
+
+            async function cargarTareas() {
+                taskList.innerHTML = "";
+
+                try {
+                    const res = await fetch(`/api/Tarea/ConsultarPorAsignatura?idAsignatura=${idAsignatura}`);
+                    if (!res.ok) throw new Error("No se pudieron cargar las tareas.");
+
+                    const tareas = await res.json();
+
+                    tareas.forEach(t => {
+                        const div = document.createElement("div");
+                        div.classList.add("task-card");
+
+                        const prioridadTexto = t.PRIORIDAD ? "ALTA" : "NORMAL";
+                        const fecha = new Date(t.FECHA_ENTREGA).toLocaleDateString();
+
+                        div.innerHTML = `
+                                <div class="left">
+                                    <input type="checkbox" class="task-check" data-id="${t.ID_TAREA}" ${t.ESTADO ? "checked" : ""} />
+                                    <div class="task-info">
+                                        <strong>TAREA: ${t.NOMBRE}</strong><br>
+                                        <span>DESCRIPCION: ${t.DESCRIPCION}</span>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div><i class="fa-regular fa-calendar"></i> ${fecha}</div>
+                                    <div class="priority">${prioridadTexto}</div>
+                                </div>
+                            `;
+
+                        taskList.appendChild(div);
+                    });
+
+                    document.querySelectorAll('.task-check').forEach(chk => {
+                        chk.addEventListener("change", async function () {
+                            const idTarea = this.getAttribute("data-id");
+                            const tarea = tareas.find(t => t.ID_TAREA == idTarea);
+                            if (!tarea) return;
+
+                            tarea.ESTADO = this.checked;
+
+                            await fetch("/api/Tarea/Actualizar", {
+                                method: "PUT",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(tarea)
+                            });
+                        });
+                    });
+
+                } catch (err) {
+                    console.error(err);
+                    alert("Error al cargar las tareas.");
+                }
+            }
+
+            document.querySelector(".agregar").addEventListener("click", async function () {
+                const nombre = prompt("Nombre de la tarea:");
+                if (!nombre) return;
+
+                const descripcion = prompt("Descripción:");
+                if (!descripcion) return;
+
+                const fechaEntrega = prompt("Fecha de entrega (YYYY-MM-DD):");
+                if (!fechaEntrega || isNaN(new Date(fechaEntrega))) {
+                    alert("Fecha inválida.");
+                    return;
+                }
+
+                const prioridad = confirm("¿Es de alta prioridad?");
+                const notificacion = confirm("¿Deseas recibir notificación?");
+
+                const nuevaTarea = {
+                    NOMBRE: nombre,
+                    DESCRIPCION: descripcion,
+                    FECHA_ENTREGA: fechaEntrega,
+                    PRIORIDAD: prioridad,
+                    ESTADO: false,
+                    NOTIFICACION: notificacion,
+                    ID_ASIGNATURA: parseInt(idAsignatura)
+                };
+
+                try {
+                    const res = await fetch("/api/Tarea/Insertar", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(nuevaTarea)
+                    });
+
+                    if (res.ok) {
+                        alert("Tarea agregada correctamente.");
+                        cargarTareas();
+                    } else {
+                        alert("Error al agregar tarea.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("No se pudo insertar la tarea.");
+                }
+            });
+
+            cargarTareas();
+        });
+    </script>
+</body>
+</html>

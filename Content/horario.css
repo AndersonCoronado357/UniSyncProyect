@@ -1,0 +1,128 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    background-color: #ffffff;
+}
+
+.header {
+    background-color: #00d7e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    color: white;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    height: 50px;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.user-icon {
+    background-color: white;
+    color: #00d7e6;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+}
+
+.container {
+    padding: 20px;
+}
+
+.horario-box {
+    background: linear-gradient(to right, #e1fafd, #e1fafd);
+    border-radius: 25px;
+    padding: 30px;
+    max-width: 95%;
+    margin: 40px auto 0 auto;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn.noti {
+    background-color: #00d7e6;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn.agregar {
+    background-color: #00d7e6;
+    color: white;
+}
+
+.tabla-wrapper {
+    overflow-x: auto;
+}
+
+.horario {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 14.4px; /* reducido en 10% */
+}
+
+.horario thead th {
+    background-color: #00d7e6;
+    color: white;
+    font-weight: bold;
+    padding: 10.8px; /* 12px * 0.9 */
+    border: 2px solid #00d7e6;
+}
+
+.horario td {
+    border: 2px solid #00d7e6;
+    padding: 12.6px 7.2px; /* 14px * 0.9 y 8px * 0.9 */
+    vertical-align: middle;
+}
+
+.horario td strong {
+    font-weight: bold;
+}
+
+.horario tbody td:first-child {
+    background-color: #00d7e6;
+    color: white;
+    font-weight: bold;
+}
+
+.horario td:empty {
+    background-color: white;
+}

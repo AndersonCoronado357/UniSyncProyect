@@ -62,15 +62,16 @@
                         item.innerHTML = `
                             <span class="asignatura-titulo"><strong>Asignatura:</strong> ${a.NOMBRE}</span>
                             <div class="buttons">
-                                <button class="btn tareas-btn">TAREAS</button>
+                                <button class="btn tareas-btn" data-id="${a.ID_ASIGNATURA}">TAREAS</button>
                                 <button class="btn apuntes-btn" data-id="${a.ID_ASIGNATURA}">APUNTES</button>
-                                <button class="btn calificaciones-btn">CALIFICACIONES</button>
+                                <button class="btn calificaciones-btn" data-id="${a.ID_ASIGNATURA}">CALIFICACIONES</button>
                                 <button class="btn delete" data-id="${a.ID_ASIGNATURA}">ELIMINAR ASIGNATURA</button>
                             </div>
                         `;
                         contenedor.appendChild(item);
                     });
 
+                    // Eliminar asignatura
                     document.querySelectorAll('.btn.delete').forEach(btn => {
                         btn.addEventListener('click', async function () {
                             const idAsignatura = this.getAttribute('data-id');
@@ -95,6 +96,7 @@
                         });
                     });
 
+                    // Navegación a apuntes
                     document.querySelectorAll('.btn.apuntes-btn').forEach(btn => {
                         btn.addEventListener('click', function () {
                             const idAsignatura = this.getAttribute('data-id');
@@ -103,7 +105,22 @@
                         });
                     });
 
-                    // Agrega listeners para tareas o calificaciones si lo necesitas
+                    // Navegación a calificaciones
+                    document.querySelectorAll('.btn.calificaciones-btn').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const idAsignatura = this.getAttribute('data-id');
+                            window.location.href = `/Calificacion/Calificacion?idAsignatura=${idAsignatura}`;
+                        });
+                    });
+
+                    // Navegación a tareas (nuevo)
+                    document.querySelectorAll('.btn.tareas-btn').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const idAsignatura = this.getAttribute('data-id');
+                            localStorage.setItem('idAsignatura', idAsignatura);
+                            window.location.href = '/Tarea/Tarea';
+                        });
+                    });
 
                 } catch (error) {
                     console.error(error);
@@ -151,6 +168,5 @@
             cargarAsignaturas();
         });
     </script>
-
 </body>
 </html>

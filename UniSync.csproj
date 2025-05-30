@@ -145,10 +145,13 @@
     <Compile Include="Controllers\ApuntesController.cs" />
     <Compile Include="Controllers\AsignaturaController.cs" />
     <Compile Include="Controllers\AsignaturasController.cs" />
+    <Compile Include="Controllers\CalificacionController.cs" />
     <Compile Include="Controllers\CalificacionesController.cs" />
     <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\HorariosController.cs" />
+    <Compile Include="Controllers\TareaController.cs" />
     <Compile Include="Controllers\TareasController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -211,8 +214,11 @@
   <ItemGroup>
     <Content Include="Content\apuntes.css" />
     <Content Include="Content\asignatura.css" />
+    <Content Include="Content\calificacion.css" />
+    <Content Include="Content\horario.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\register.css" />
+    <Content Include="Content\tareas.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Models\UNISYNC.Context.tt">
@@ -260,6 +266,9 @@
     <Content Include="Views\Cuenta\Login.cshtml" />
     <Content Include="Views\Asignatura\Asignatura.cshtml" />
     <Content Include="Views\Apunte\Apunte.cshtml" />
+    <Content Include="Views\Calificacion\Calificacion.cshtml" />
+    <Content Include="Views\Horario\Horario.cshtml" />
+    <Content Include="Views\Tarea\Tarea.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

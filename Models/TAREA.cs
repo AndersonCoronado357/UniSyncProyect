@@ -12,7 +12,7 @@ namespace UniSync.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class TAREA
     {
         public int ID_TAREA { get; set; }

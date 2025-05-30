@@ -1,0 +1,246 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Horario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/horario.css" />
+    <style>
+        .dia-btn {
+            margin: 2px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+            .dia-btn.selected {
+                background-color: #007bff;
+                color: white;
+            }
+
+        td[data-hora] {
+            height: 60px;
+            vertical-align: middle;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -20%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            z-index: 999;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="~/img/image (1).png" alt="Logo" class="logo-icon">
+            <span class="logo-text">UniSync</span>
+        </div>
+        <div class="user-icon">
+            <i class="fa-regular fa-user"></i>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="horario-box">
+            <div class="top-bar">
+                <button class="btn noti"><i class="fa-regular fa-bell"></i> NOTIFICACIONES</button>
+                <button class="btn agregar" id="btnAgregarClase">AGREGAR CLASE</button>
+            </div>
+            <div class="tabla-wrapper">
+                <table class="horario">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>LUNES</th>
+                            <th>MARTES</th>
+                            <th>MIERCOLES</th>
+                            <th>JUEVES</th>
+                            <th>VIERNES</th>
+                            <th>SABADO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaHorario">
+                        @for (int h = 6; h < 22; h += 2)
+                        {
+                            <tr>
+                                <td>@(h):00 - @(h + 2):00</td>
+                                <td data-hora="@h" data-dia="LUNES"></td>
+                                <td data-hora="@h" data-dia="MARTES"></td>
+                                <td data-hora="@h" data-dia="MIERCOLES"></td>
+                                <td data-hora="@h" data-dia="JUEVES"></td>
+                                <td data-hora="@h" data-dia="VIERNES"></td>
+                                <td data-hora="@h" data-dia="SABADO"></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Agregar Clase -->
+    <div id="modalAgregarClase" class="modal">
+        <h2>Agregar Clase</h2>
+        <form id="formHorario">
+            <label for="asignatura">Asignatura:</label>
+            <select id="asignatura" name="ID_ASIGNATURA"></select>
+
+            <label>Días:</label>
+            <div id="diasContainer">
+                <span class="dia-btn" data-dia="LUNES">Lunes</span>
+                <span class="dia-btn" data-dia="MARTES">Martes</span>
+                <span class="dia-btn" data-dia="MIERCOLES">Miércoles</span>
+                <span class="dia-btn" data-dia="JUEVES">Jueves</span>
+                <span class="dia-btn" data-dia="VIERNES">Viernes</span>
+                <span class="dia-btn" data-dia="SABADO">Sábado</span>
+            </div>
+
+            <label for="horaInicio">Hora Inicio:</label>
+            <select id="horaInicio"></select>
+
+            <label for="horaFin">Hora Fin:</label>
+            <select id="horaFin"></select>
+
+            <label><input type="checkbox" id="notificacion" /> Recibir notificación</label>
+
+            <button type="submit">Guardar</button>
+            <button type="button" onclick="document.getElementById('modalAgregarClase').style.display='none'">Cancelar</button>
+        </form>
+    </div>
+
+    <script>
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        const idUsuario = usuario?.ID_USUARIO;
+        const diasSeleccionados = new Set();
+
+        document.querySelectorAll(".dia-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                const dia = this.dataset.dia;
+                if (diasSeleccionados.has(dia)) {
+                    diasSeleccionados.delete(dia);
+                    this.classList.remove("selected");
+                } else {
+                    diasSeleccionados.add(dia);
+                    this.classList.add("selected");
+                }
+            });
+        });
+
+        function cargarHoras() {
+            const selectInicio = document.getElementById("horaInicio");
+            const selectFin = document.getElementById("horaFin");
+            selectInicio.innerHTML = "";
+            selectFin.innerHTML = "";
+            for (let h = 6; h <= 20; h += 2) {
+                const inicio = h.toString().padStart(2, "0") + ":00";
+                const fin = (h + 2).toString().padStart(2, "0") + ":00";
+                selectInicio.innerHTML += `<option value="${inicio}">${inicio}</option>`;
+                selectFin.innerHTML += `<option value="${fin}">${fin}</option>`;
+            }
+        }
+
+        document.getElementById("btnAgregarClase").addEventListener("click", function () {
+            fetch(`/api/Asignatura/ConsultarPorUsuario?idUsuario=${idUsuario}`)
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById("asignatura");
+                    select.innerHTML = "";
+                    data.forEach(asig => {
+                        const opt = document.createElement("option");
+                        opt.value = asig.ID_ASIGNATURA;
+                        opt.textContent = asig.NOMBRE;
+                        select.appendChild(opt);
+                    });
+
+                    diasSeleccionados.clear();
+                    document.querySelectorAll(".dia-btn").forEach(btn => btn.classList.remove("selected"));
+                    cargarHoras();
+                    document.getElementById("modalAgregarClase").style.display = "block";
+                });
+        });
+
+        function mostrarClaseEnTabla(asignatura, dias, inicio, fin) {
+            const inicioHora = parseInt(inicio.split(":")[0]);
+            const finHora = parseInt(fin.split(":")[0]);
+
+            for (let h = inicioHora; h < finHora; h += 2) {
+                dias.forEach(dia => {
+                    const celda = document.querySelector(`td[data-dia="${dia}"][data-hora="${h}"]`);
+                    if (celda && !celda.textContent.trim()) {
+                        celda.textContent = asignatura;
+                    }
+                });
+            }
+        }
+
+        document.getElementById("formHorario").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const dias = Array.from(diasSeleccionados);
+            const asignaturaNombre = document.getElementById("asignatura").selectedOptions[0]?.text;
+            const inicio = document.getElementById("horaInicio").value;
+            const fin = document.getElementById("horaFin").value;
+
+            if (!dias.length || !asignaturaNombre || inicio >= fin) {
+                alert("Por favor completa todos los campos correctamente.");
+                return;
+            }
+
+            const data = {
+                ID_ASIGNATURA: parseInt(document.getElementById("asignatura").value),
+                HORA_INICIO: inicio,
+                HORA_FIN: fin,
+                NOTIFICACION: document.getElementById("notificacion").checked
+            };
+
+            const promesas = dias.map(dia => {
+                const copia = { ...data, DIAS: dia };
+                return fetch("/api/Horario/Insertar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(copia)
+                });
+            });
+
+            Promise.all(promesas)
+                .then(() => {
+                    mostrarClaseEnTabla(asignaturaNombre, dias, inicio, fin);
+                    document.getElementById("modalAgregarClase").style.display = "none";
+                });
+        });
+
+        window.addEventListener("DOMContentLoaded", function () {
+            fetch(`/api/Asignatura/ConsultarPorUsuario?idUsuario=${idUsuario}`)
+                .then(res => res.json())
+                .then(asignaturas => {
+                    asignaturas.forEach(asig => {
+                        fetch(`/api/Horario/ConsultarPorAsignatura?idAsignatura=${asig.ID_ASIGNATURA}`)
+                            .then(res => res.json())
+                            .then(horarios => {
+                                horarios.forEach(h => {
+                                    mostrarClaseEnTabla(asig.NOMBRE, [h.DIAS], h.HORA_INICIO, h.HORA_FIN);
+                                });
+                            });
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
