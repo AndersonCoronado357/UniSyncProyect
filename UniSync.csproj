@@ -151,10 +151,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\HorariosController.cs" />
+    <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\NosotrosController.cs" />
     <Compile Include="Controllers\TareaController.cs" />
     <Compile Include="Controllers\TareasController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -216,7 +217,10 @@
     <Content Include="Content\asignatura.css" />
     <Content Include="Content\calificacion.css" />
     <Content Include="Content\horario.css" />
+    <Content Include="Content\index.css" />
+    <Content Include="Content\iniciar.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\nosotros.css" />
     <Content Include="Content\register.css" />
     <Content Include="Content\tareas.css" />
     <Content Include="favicon.ico" />
@@ -250,6 +254,24 @@
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="img\calendario.png" />
+    <Content Include="img\calificacion-de-estrellas.png" />
+    <Content Include="img\correo-electronico.png" />
+    <Content Include="img\ic1.png" />
+    <Content Include="img\ic2.png" />
+    <Content Include="img\ic3.png" />
+    <Content Include="img\ic4.png" />
+    <Content Include="img\icono1.png" />
+    <Content Include="img\icono2.png" />
+    <Content Include="img\icono3.png" />
+    <Content Include="img\icono4.png" />
+    <Content Include="img\image %281%29.png" />
+    <Content Include="img\image.png" />
+    <Content Include="img\instagram.png" />
+    <Content Include="img\medios-de-comunicacion-social.png" />
+    <Content Include="img\notas-adhesivas.png" />
+    <Content Include="img\ocupaciones %281%29.png" />
+    <Content Include="img\whatsapp %281%29.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -258,10 +280,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Cuenta\Register.cshtml" />
     <Content Include="Views\Cuenta\Login.cshtml" />
     <Content Include="Views\Asignatura\Asignatura.cshtml" />
@@ -269,6 +288,8 @@
     <Content Include="Views\Calificacion\Calificacion.cshtml" />
     <Content Include="Views\Horario\Horario.cshtml" />
     <Content Include="Views\Tarea\Tarea.cshtml" />
+    <Content Include="Views\Inicio\Inicio.cshtml" />
+    <Content Include="Views\Nosotros\Nosotros.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

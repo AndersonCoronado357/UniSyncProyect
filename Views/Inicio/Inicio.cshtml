@@ -1,0 +1,188 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniSync</title>
+    <link rel="stylesheet" href="~/Content/iniciar.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        /* Modal básico */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+            .modal h3 {
+                margin-bottom: 1rem;
+            }
+
+        .asignatura-btn {
+            display: block;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-close {
+            margin-top: 1rem;
+            background: #ccc;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="~/img/image (1).png" alt="Logo" />
+            <span>UniSync</span>
+        </div>
+        <nav>
+            <a href="#" id="contactanos-link">CONTACTANOS</a>
+            <a href="#" id="acerca-link">ACERCA DE NOSOTROS</a>
+            <a href="#" id="regresar-link">REGRESAR</a>
+            <a href="#" id="asignaturas-link">ASIGNATURAS</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>¡AUMENTA TU PRODUCTIVIDAD AL MAXIMO!</h1>
+        <p class="subtitulo">Con UniSync podrás llevar tu productividad a otro nivel.</p>
+
+        <section class="cards">
+            <div class="card" data-destino="/Horario/Horario">
+                <img class="icono" src="~/img/ic1.png" alt="Icono Horario" />
+                <h2>Horario</h2>
+                <p>Gestiona tu horario.</p>
+                <img class="fondo" src="~/img/icono1.png" alt="Fondo horario" />
+            </div>
+            <div class="card" data-destino="/Tarea/Tarea">
+                <img class="icono" src="~/img/ic2.png" alt="Icono Tareas" />
+                <h2>Tareas</h2>
+                <p>Gestiona tus tareas con nuestra ayuda.</p>
+                <img class="fondo" src="~/img/icono2.png" alt="Fondo tareas" />
+            </div>
+            <div class="card" data-destino="/Calificacion/Calificacion">
+                <img class="icono" src="~/img/ic3.png" alt="Icono Calificaciones" />
+                <h2>Calificaciones</h2>
+                <p>Consulta tus notas.</p>
+                <img class="fondo" src="~/img/icono3.png" alt="Fondo calificaciones" />
+            </div>
+            <div class="card" data-destino="/Apunte/Apunte">
+                <img class="icono" src="~/img/ic4.png" alt="Icono Apuntes" />
+                <h2>Apuntes</h2>
+                <p>Guarda tus notas de clase.</p>
+                <img class="fondo" src="~/img/icono4.png" alt="Fondo apuntes" />
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="asignaturas-modal">
+        <div class="modal">
+            <h3>Selecciona una asignatura</h3>
+            <div id="asignaturas-list"></div>
+            <button class="modal-close" onclick="document.getElementById('asignaturas-modal').style.display='none'">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Navegación general
+        document.getElementById('regresar-link').addEventListener('click', e => {
+            e.preventDefault();
+            window.location.href = '/Home/Index';
+        });
+        document.getElementById('asignaturas-link').addEventListener('click', e => {
+            e.preventDefault();
+            window.location.href = '/Asignatura/Asignatura';
+        });
+        document.getElementById('acerca-link').addEventListener('click', e => {
+            e.preventDefault();
+            window.location.href = '/Nosotros/Nosotros';
+        });
+
+        // Función para mostrar asignaturas y navegar
+        function mostrarAsignaturas(destino) {
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+            if (!usuario || !usuario.ID_USUARIO) {
+                alert("Usuario no encontrado en localStorage.");
+                return;
+            }
+
+            fetch(`/api/Asignatura/ConsultarPorUsuario?idUsuario=${usuario.ID_USUARIO}`)
+                .then(res => res.json())
+                .then(asignaturas => {
+                    const lista = document.getElementById('asignaturas-list');
+                    lista.innerHTML = ''; // limpiar anterior
+                    asignaturas.forEach(asignatura => {
+                        const btn = document.createElement('button');
+                        btn.textContent = asignatura.NOMBRE;
+                        btn.className = 'asignatura-btn';
+                        btn.setAttribute('data-id', asignatura.ID_ASIGNATURA);
+                        btn.addEventListener('click', function () {
+                            const id = this.getAttribute('data-id');
+                            localStorage.setItem('idAsignatura', id);
+                            window.location.href = destino.includes('Calificacion')
+                                ? `${destino}?idAsignatura=${id}`
+                                : destino;
+                        });
+                        lista.appendChild(btn);
+                    });
+                    document.getElementById('asignaturas-modal').style.display = 'flex';
+                })
+                .catch(err => {
+                    console.error("Error al consultar asignaturas:", err);
+                    alert("Ocurrió un error al obtener tus asignaturas.");
+                });
+        }
+
+        // Asignar evento a cada tarjeta
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function () {
+                const destino = this.getAttribute('data-destino');
+
+                // Si el destino es Horario, navega directamente
+                if (destino.includes('/Horario/Horario')) {
+                    window.location.href = destino;
+                } else {
+                    mostrarAsignaturas(destino);
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

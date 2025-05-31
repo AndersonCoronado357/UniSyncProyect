@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace UniSync.Controllers
 {
-    public class HomeController : Controller
+    public class NosotrosController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Nosotros()
         {
             return View();
         }

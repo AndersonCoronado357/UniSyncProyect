@@ -38,12 +38,6 @@
             <div class="signup">
                 ¿No tienes una cuenta? <a href="/Cuenta/Register">Sign up now</a>
             </div>
-
-            <div class="or">OR</div>
-
-            <div class="google-login">
-                Login con Google...
-            </div>
         </div>
 
         <div class="info">
@@ -80,7 +74,7 @@
                     alert('Bienvenido, ' + usuario.NOMBRE);
 
                     // Redirigir a la vista de asignaturas
-                    window.location.href = '/Asignatura/Asignatura'; // Ajusta esta ruta según tu proyecto
+                    window.location.href = '/Inicio/Inicio'; // Ajusta esta ruta según tu proyecto
                 } else if (response.status === 401) {
                     alert('Credenciales incorrectas. Verifica tu correo y contraseña.');
                 } else {

@@ -1,26 +1,81 @@
-﻿<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="aspnetTitle">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-            a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-            is an ideal platform for building RESTful applications on the .NET Framework.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | UniSync</title>
+    <link rel="stylesheet" href="~/Content/index.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <button class="nav-button" id="iniciar-btn">iniciar</button>
+            <a href="#" id="registrate-link">registrate</a>
+            <a href="#" id="acerca-link">acerca de nosotros</a>
+            <a href="#" id="contactanos-link">contactanos</a>
+        </nav>
+        <button class="login-button" id="login-btn">
+            <i data-lucide="user-plus" class="login-icon"></i>
+            LOGIN
+        </button>
+    </header>
+
+    <main class="main">
+        <section class="left-section">
+            <h1>BIENVENIDO</h1>
+            <p>
+                Simplifica tu vida académica con una herramienta diseñada para organizar horarios, tareas,
+                calificaciones y apuntes en un solo lugar, ayudándote a reducir el estrés y mejorar tu rendimiento.
+                Creada para estudiantes universitarios, nuestra plataforma te permite gestionar fácilmente tu información
+                académica con una interfaz intuitiva y accesible. Organiza tu día a día con gestión de horarios, control
+                de tareas, seguimiento de calificaciones y un sistema de apuntes digital para optimizar tu estudio.
+            </p>
+            <a href="#" class="saber-mas-button" id="saber-mas-link">Saber más--></a>
+
+            <div class="icons">
+                <img src="~/img/calendario.png" alt="Icono 1">
+                <img src="~/img/ocupaciones (1).png" alt="Icono 2">
+                <img src="~/img/calificacion-de-estrellas.png" alt="Icono 3">
+                <img src="~/img/notas-adhesivas.png" alt="Icono 4">
+            </div>
         </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+
+        <section class="right-section-container">
+            <div class="right-section"></div>
         </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-        </section>>
-    </div>
-</main>
+
+        <div class="right-section-content">
+            <h2>¡BIENVENIDO A UNISYNC!</h2>
+            <img src="~/img/image.png" alt="Logo Unisync" class="logo">
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        document.getElementById('login-btn').addEventListener('click', function () {
+            window.location.href = '/Cuenta/Login';
+        });
+
+        document.getElementById('iniciar-btn').addEventListener('click', function () {
+            window.location.href = '/Inicio/Inicio';
+        });
+
+        document.getElementById('registrate-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = '/Cuenta/Register';
+        });
+
+        document.getElementById('acerca-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = '/Nosotros/Nosotros';
+        });
+
+        document.getElementById('saber-mas-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = '/Nosotros/Nosotros';
+        });
+    </script>
+</body>
+</html>
